@@ -12,15 +12,15 @@ public abstract class ModuleScript : MonoBehaviour
     public abstract KMBombModule KMBombModule { get; }
     public abstract KMSelectable[][] KMSelectables { get; }
 
-    public abstract void Activate();
-    public abstract Func<KMSelectable.OnInteractHandler>[] HandlePress { get; }
-    public abstract Func<int, KMSelectable.OnInteractHandler>[] HandlePresses { get; }
-    public abstract IEnumerator ProcessTwitchCommand(string command);
-    public abstract IEnumerator TwitchHandleForcedSolve();
+    internal abstract void Activate();
+    internal abstract Func<KMSelectable.OnInteractHandler>[] HandlePress { get; }
+    internal abstract Func<int, KMSelectable.OnInteractHandler>[] HandlePresses { get; }
+    internal abstract IEnumerator ProcessTwitchCommand(string command);
+    internal abstract IEnumerator TwitchHandleForcedSolve();
 
-    public abstract bool IsSolved { get; set; }
-    public abstract int ModuleId { get; set; }
-    public abstract string HelpMessage { get; }
+    internal abstract bool IsSolved { get; set; }
+    internal abstract int ModuleId { get; set; }
+    internal abstract string HelpMessage { get; }
 
     /// <summary>
     /// This runs the activate method, then initalizes the buttons.

@@ -28,13 +28,13 @@ public class LinqScript : ModuleScript
     public Renderer[] ButtonRenderers;
     public TextMesh Text;
 
-    public override Func<KMSelectable.OnInteractHandler>[] HandlePress { get { return new Func<KMSelectable.OnInteractHandler>[] { select.TextPress }; } }
-    public override Func<int, KMSelectable.OnInteractHandler>[] HandlePresses { get { return new Func<int, KMSelectable.OnInteractHandler>[] { select.ButtonPress }; } }
+    internal override Func<KMSelectable.OnInteractHandler>[] HandlePress { get { return new Func<KMSelectable.OnInteractHandler>[] { select.TextPress }; } }
+    internal override Func<int, KMSelectable.OnInteractHandler>[] HandlePresses { get { return new Func<int, KMSelectable.OnInteractHandler>[] { select.ButtonPress }; } }
 
-    public override bool IsSolved { get; set; }
-    public override int ModuleId { get; set; }
-    public override string HelpMessage { get { return TwitchHelpMessage; } }
-    private const string TwitchHelpMessage = @"!{0} highlight [Hovers over all buttons] | !{0} submit 126 [Presses positions 1, 2, 6 and then hits submit]";
+    internal override bool IsSolved { get; set; }
+    internal override int ModuleId { get; set; }
+    internal override string HelpMessage { get { return TwitchHelpMessage; } }
+    private const string TwitchHelpMessage = @"!{0} 6 [Presses the 6th position] | !{0} submit [Presses the text, case-insensitive] | !{0} 6 54 sUbMiT [Presses the 6th, 5th, and 4th position, then the text.]";
 
     internal static int moduleIdCounter;
     internal LinqSelect select;
@@ -43,7 +43,7 @@ public class LinqScript : ModuleScript
     #endregion
 
     #region Methods
-    public override void Activate()
+    internal override void Activate()
     {
         select = new LinqSelect(this);
 
@@ -60,7 +60,7 @@ public class LinqScript : ModuleScript
         }
     }
 
-    public override IEnumerator ProcessTwitchCommand(string command)
+    internal override IEnumerator ProcessTwitchCommand(string command)
     {
         string[] split = command.Split();
 
@@ -131,7 +131,7 @@ public class LinqScript : ModuleScript
         _isRunningTwitchCommand = false;
     }
 
-    public override IEnumerator TwitchHandleForcedSolve()
+    internal override IEnumerator TwitchHandleForcedSolve()
     {
         yield return null;
         for (int i = select.currentStage; i < LinqSelect.MaxStage; i++)
