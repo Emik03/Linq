@@ -17,6 +17,6 @@ MonoBehaviour:
   description: "list.GroupBy(x => x)\n.Where(g => g.Count() > 1).Select(y => y.Key).ToList();\n\nmoduleId:
     Linq\n\nHTML Manual: https://ktane.timwi.de/HTML/Linq.html\n\nTwitch Plays is
     supported.\r\n\r\nIs there a bug? Do you have a question? Discord: @Emik#0001"
-  version: 1.0.1
+  version: 1.0.2
   outputFolder: build
   previewImage: {fileID: 2800000, guid: 54c9494d4a1f23845b74ccac5762a1a6, type: 3}

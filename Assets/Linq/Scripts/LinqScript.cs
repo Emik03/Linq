@@ -28,8 +28,8 @@ public class LinqScript : ModuleScript
     public Renderer[] ButtonRenderers;
     public TextMesh Text;
 
-    public override Func<KMSelectable.OnInteractHandler>[] HandlePress { get { return new Func<KMSelectable.OnInteractHandler>[] { _select.TextPress }; } }
-    public override Func<int, KMSelectable.OnInteractHandler>[] HandlePresses { get { return new Func<int, KMSelectable.OnInteractHandler>[] { _select.ButtonPress }; } }
+    public override Func<KMSelectable.OnInteractHandler>[] HandlePress { get { return new Func<KMSelectable.OnInteractHandler>[] { select.TextPress }; } }
+    public override Func<int, KMSelectable.OnInteractHandler>[] HandlePresses { get { return new Func<int, KMSelectable.OnInteractHandler>[] { select.ButtonPress }; } }
 
     public override bool IsSolved { get; set; }
     public override int ModuleId { get; set; }
@@ -37,26 +37,26 @@ public class LinqScript : ModuleScript
     private const string TwitchHelpMessage = @"!{0} highlight [Hovers over all buttons] | !{0} submit 126 [Presses positions 1, 2, 6 and then hits submit]";
 
     internal static int moduleIdCounter;
+    internal LinqSelect select;
 
     private bool _isRunningTwitchCommand;
-    private LinqSelect _select;
     #endregion
 
     #region Methods
     public override void Activate()
     {
-        _select = new LinqSelect(this);
+        select = new LinqSelect(this);
 
-        ModuleSelectable.OnHighlight += _select.OnHighlight(ModuleHighlightable);
-        ModuleSelectable.OnHighlightEnded += _select.OnHighlightEnded(ModuleHighlightable);
+        ModuleSelectable.OnHighlight += select.OnHighlight(ModuleHighlightable);
+        ModuleSelectable.OnHighlightEnded += select.OnHighlightEnded(ModuleHighlightable);
 
-        TextSelectable.OnHighlight += _select.OnHighlight(TextHighlightable);
-        TextSelectable.OnHighlightEnded += _select.OnHighlightEnded(TextHighlightable);
+        TextSelectable.OnHighlight += select.OnHighlight(TextHighlightable);
+        TextSelectable.OnHighlightEnded += select.OnHighlightEnded(TextHighlightable);
 
         for (int i = 0; i < Buttons.Length; i++)
         {
-            Buttons[i].OnHighlight += _select.OnHighlight(ButtonHighlightables[i]);
-            Buttons[i].OnHighlightEnded += _select.OnHighlightEnded(ButtonHighlightables[i]);
+            Buttons[i].OnHighlight += select.OnHighlight(ButtonHighlightables[i]);
+            Buttons[i].OnHighlightEnded += select.OnHighlightEnded(ButtonHighlightables[i]);
         }
     }
 
@@ -120,7 +120,7 @@ public class LinqScript : ModuleScript
 
             for (int j = 0; j < split[i].Length; j++)
             {
-                Buttons[!_select.isInverted ? (int)char.GetNumericValue(split[i][j]) - 1 : new[] { 0, 2, 4, 1, 3, 5 }[(int)char.GetNumericValue(split[i][j]) - 1]].OnInteract();
+                Buttons[!select.isInverted ? (int)char.GetNumericValue(split[i][j]) - 1 : new[] { 0, 2, 4, 1, 3, 5 }[(int)char.GetNumericValue(split[i][j]) - 1]].OnInteract();
                 yield return new WaitForSecondsRealtime(0.2f);
             }
         }
@@ -134,15 +134,15 @@ public class LinqScript : ModuleScript
     public override IEnumerator TwitchHandleForcedSolve()
     {
         yield return null;
-        for (int i = _select.currentStage; i < LinqSelect.MaxStage; i++)
+        for (int i = select.currentStage; i < LinqSelect.MaxStage; i++)
         {
             _isRunningTwitchCommand = true;
 
-            bool[] answer = LinqValidate.Run(Info.GetSerialNumber(), _select.initialButtonStates, _select.functions[i], _select.parameter);
+            bool[] answer = LinqValidate.Run(Info.GetSerialNumber(), select.initialButtonStates, select.functions[i], select.parameter);
             string answerIndexes = string.Empty;
 
             for (int j = 0; j < answer.Length; j++)
-                if (answer[j] != _select.buttonStates[j])
+                if (answer[j] != select.buttonStates[j])
                     answerIndexes += (j + 1).ToString();
 
             StartCoroutine(TwitchSelect(new string[] { "submit", answerIndexes }));
