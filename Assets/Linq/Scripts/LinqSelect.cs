@@ -34,7 +34,7 @@ namespace Linq
 
         internal bool isAnimating, isInverted;
         internal bool[] buttonStates = new bool[6], initialButtonStates = new bool[6];
-        internal const int MaxStage = 6; 
+        internal const int MaxStage = 3; 
         internal int currentStage;
         internal object parameter;
         internal readonly LinqFunctions[] functions;
