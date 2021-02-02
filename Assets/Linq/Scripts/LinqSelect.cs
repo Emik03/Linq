@@ -158,7 +158,7 @@ namespace Linq
             _linq.Text.text = functions[currentStage].ToString() + "\n(" + parameter + ")";
 
             bool[] answer = LinqValidate.Run(_linq.Info.GetSerialNumber(), initialButtonStates, functions[currentStage], parameter);
-            Debug.LogFormat("[Linq #{0}]: Entering stage {1}. Calling function {2} on {3} returns {4}.", _linq.ModuleId, currentStage + 1, functions[currentStage] + "(" + parameter + ")", initialButtonStates.Select(b => b ? "O" : "-").Join(""), answer.Select(b => b ? "O" : "-").Join(""));
+            Debug.LogFormat("[Linq #{0}]: {1}Calling function {2} on {3} returns {4}.", _linq.ModuleId, MaxStage > 1 ? "Entering stage " + (currentStage + 1) + ". " : string.Empty, functions[currentStage] + "(" + parameter + ")", initialButtonStates.Select(b => b ? "O" : "-").Join(""), answer.Select(b => b ? "O" : "-").Join(""));
         }
 
         internal IEnumerator Solve()
